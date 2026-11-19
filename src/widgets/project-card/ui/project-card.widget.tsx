@@ -75,7 +75,7 @@ export function ProjectCard(props: Props) {
         <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">{description}</p>
 
         {/* Technology tags */}
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5 justify-self-end">
           {projectTechnologies.map((technology) => (
             <SharedUi.Badge
               key={technology.id}

@@ -49,7 +49,7 @@ export function SheetComponent(props: Props) {
           )}
         </SharedUi.SheetHeader>
 
-        <div className="min-h-0 flex-1 overflow-hidden py-4 sm:py-5">
+        <div className="min-h-0 flex-1 overflow-scroll py-4 sm:py-5">
           {state === 'frontend' && (
             <ProjectCardUi.ProjectCardSheet.SheetStackSections.FrontendSection project={project} />
           )}

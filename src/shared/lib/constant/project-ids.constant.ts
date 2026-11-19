@@ -8,4 +8,5 @@ export const PROJECT_IDS = {
   WATER_METERS: 'water-meters',
   DEFUTURE: 'defuture',
   CASH_FLOW: 'cash-flow',
+  AI_AGENT_LAB: 'ai-agent-lab',
 } as const

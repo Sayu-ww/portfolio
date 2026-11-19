@@ -13,7 +13,7 @@ export function BackendSection(props: Props) {
   )
 
   return (
-    <section className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overscroll-contain px-3 sm:gap-8 sm:px-4">
+    <section className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-scroll px-3 sm:gap-8 sm:px-4">
       <div className="flex flex-col gap-2">
         <h1 className="text-xl font-semibold">Backend</h1>
         {backendTags.length > 0 && (

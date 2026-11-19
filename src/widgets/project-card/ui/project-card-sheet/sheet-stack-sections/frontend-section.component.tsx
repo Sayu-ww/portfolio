@@ -13,7 +13,7 @@ export function FrontendSection(props: Props) {
   )
 
   return (
-    <section className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain px-3 sm:px-4">
+    <section className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-scroll px-3 sm:px-4">
       <h1 className="text-xl font-semibold">Frontend</h1>
       {frontendTags.length > 0 && (
         <div className="flex flex-wrap gap-2" aria-label="Frontend technologies">
