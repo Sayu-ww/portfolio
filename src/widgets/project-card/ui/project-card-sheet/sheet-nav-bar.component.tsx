@@ -1,4 +1,4 @@
-import { SharedUi } from '@shared'
+import { SharedService, SharedUi } from '@shared'
 import { ProjectCardLib, ProjectCardTypes } from '@widgets/project-card'
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
 
 export function SheetNavbar(props: Props) {
   const { setState, state } = props
+  const { locale } = SharedService.Locale.useLocale()
 
   const handleClick = (state: ProjectCardTypes.Ui.SheetNavState) => {
     setState(state)
@@ -17,8 +18,8 @@ export function SheetNavbar(props: Props) {
     <article className="w-full">
       <SharedUi.NavigationMenu>
         <SharedUi.NavigationMenuList className="border-secondary w-full flex-wrap justify-start gap-1 rounded-lg border-2 p-1">
-          {ProjectCardLib.Constants.SHEET_NAV_LINK.map((item, index) => (
-            <SharedUi.NavigationMenuItem key={index}>
+          {ProjectCardLib.Constants.SHEET_NAV_LINK.map((item) => (
+            <SharedUi.NavigationMenuItem key={item.state}>
               <SharedUi.NavigationMenuLink
                 className={SharedUi.navigationMenuTriggerStyle()}
                 render={
@@ -27,7 +28,7 @@ export function SheetNavbar(props: Props) {
                     variant={state === item.state ? 'outline' : 'ghost'}
                     onClick={() => handleClick(item.state)}
                   >
-                    {item.label}
+                    {item.label[locale]}
                   </SharedUi.Button>
                 }
               />

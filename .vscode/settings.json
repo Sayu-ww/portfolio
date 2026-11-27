@@ -1,5 +1,6 @@
 {
   // Common settings
+  "editor.fontFamily": "JetBrainsMono Nerd Font Mono, monospace",
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "search.exclude": {
@@ -50,5 +51,15 @@
     ".*ClassNames"
   ],
   "tailwindCSS.classFunctions": ["clsx"],
-  "cSpell.words": ["DEFUTURE", "GETTBOT", "HODL", "nyst", "reactquery", "Sayu"]
+  "cSpell.words": [
+    "DEFUTURE",
+    "GETTBOT",
+    "HODL",
+    "nyst",
+    "reactquery",
+    "Sayu"
+  ],
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }

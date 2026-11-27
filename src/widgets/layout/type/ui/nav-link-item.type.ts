@@ -1,6 +1,8 @@
+import type { SharedTypes } from '@shared'
+
 export type NavLinkItem = {
-  title: string
+  title: SharedTypes.LocalizedText
   href: string
-  description?: string
+  description?: SharedTypes.LocalizedText
   icon?: React.ReactNode
 }

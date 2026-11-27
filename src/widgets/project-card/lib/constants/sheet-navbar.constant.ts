@@ -2,13 +2,11 @@ import type { ProjectCardTypes } from '@widgets/project-card'
 
 export const SHEET_NAV_LINK: ProjectCardTypes.Ui.SheetNavLinkItem[] = [
   {
-    to: '/projects/#frontend',
-    label: 'frontend',
+    label: { en: 'Frontend', ru: 'Frontend' },
     state: 'frontend',
   },
   {
-    to: '/projects/#backend',
-    label: 'backend',
+    label: { en: 'Backend', ru: 'Backend' },
     state: 'backend',
   },
 ]

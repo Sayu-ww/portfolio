@@ -1,5 +1,6 @@
-import { SharedLib, SharedUi } from '@shared'
+import { SharedLib, SharedService, SharedUi } from '@shared'
 import type { ProjectEntity } from 'entities'
+import { Constants } from '../../../lib'
 
 type Props = {
   project: ProjectEntity.Model.Types.Project
@@ -7,6 +8,8 @@ type Props = {
 
 export function BackendSection(props: Props) {
   const { project } = props
+  const { locale } = SharedService.Locale.useLocale()
+  const copy = Constants.PROJECT_CARD_COPY[locale]
 
   const backendTags = SharedLib.Constants.PROJECT_TECHNOLOGIES.filter(
     (technology) => technology.projectIds.includes(project.id) && technology.group === 'backend',
@@ -15,9 +18,9 @@ export function BackendSection(props: Props) {
   return (
     <section className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overscroll-contain px-3 sm:gap-8 sm:px-4">
       <div className="flex flex-col gap-2">
-        <h1 className="text-xl font-semibold">Backend</h1>
+        <h1 className="text-xl font-semibold">{copy.backend}</h1>
         {backendTags.length > 0 && (
-          <div className="flex flex-wrap gap-2" aria-label="Backend technologies">
+          <div className="flex flex-wrap gap-2" aria-label={copy.backendTechnologies}>
             {backendTags.map((technology) => (
               <SharedUi.Badge key={technology.id}>{technology.name}</SharedUi.Badge>
             ))}
@@ -30,10 +33,10 @@ export function BackendSection(props: Props) {
           {project.backendCodeSnippets.map((snippet) => (
             <article
               className="min-w-0 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-500/20"
-              key={snippet.title}
+              key={snippet.title.en}
             >
               <header className="flex items-start justify-between gap-3 border-b border-gray-200 px-4 py-3 sm:items-center sm:px-5 dark:border-gray-500/20">
-                <h2 className="min-w-0 font-medium break-words">{snippet.title}</h2>
+                <h2 className="min-w-0 font-medium break-words">{snippet.title[locale]}</h2>
                 <span className="text-muted-foreground font-mono text-xs tracking-wide uppercase">
                   {snippet.language}
                 </span>
@@ -48,7 +51,7 @@ export function BackendSection(props: Props) {
           ))}
         </div>
       ) : (
-        <p className="text-muted-foreground">Code examples are not available for this project yet.</p>
+        <p className="text-muted-foreground">{copy.unavailableCode}</p>
       )}
     </section>
   )

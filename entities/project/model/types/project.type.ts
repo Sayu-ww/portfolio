@@ -1,8 +1,10 @@
+import type { LocalizedText } from '@shared/types'
+
 export interface Project {
   id: string
   title: string
   category: ProjectCategory
-  description: string
+  description: LocalizedText
   preview?: string
   images: ProjectImage[]
   backendCodeSnippets?: ProjectCodeSnippet[]
@@ -14,11 +16,11 @@ export type ProjectCategory = 'commercial' | 'pet-project' | 'personal' | 'open-
 
 export type ProjectImage = {
   src: string
-  description: string
+  description: LocalizedText
 }
 
 export type ProjectCodeSnippet = {
-  title: string
+  title: LocalizedText
   language: string
   code: string
 }

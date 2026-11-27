@@ -2,6 +2,7 @@ import { ThemeProvider } from 'next-themes'
 import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 import type { Route } from './+types/root'
 
+import { SharedService } from '@shared'
 import { LayoutUi } from '@widgets/layout'
 import './app.css'
 
@@ -11,7 +12,7 @@ export function Layout(props: React.PropsWithChildren) {
   const { children } = props
 
   return (
-    <html>
+    <html lang="ru">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,12 +21,14 @@ export function Layout(props: React.PropsWithChildren) {
         <Links />
       </head>
       <body>
-        <ThemeProvider defaultTheme="dark" enableSystem attribute="class">
-          <LayoutUi.PageLoaderComponent />
-          {children}
-          <ScrollRestoration />
-          <Scripts />
-        </ThemeProvider>
+        <SharedService.Locale.LocaleProvider>
+          <ThemeProvider defaultTheme="dark" enableSystem attribute="class">
+            <LayoutUi.PageLoaderComponent />
+            {children}
+            <ScrollRestoration />
+            <Scripts />
+          </ThemeProvider>
+        </SharedService.Locale.LocaleProvider>
       </body>
     </html>
   )

@@ -89,7 +89,8 @@
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  --radius: 0.875rem;
+  --ambient-glow: rgb(0 0 0 / 5%);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -119,6 +120,7 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
+  --ambient-glow: rgb(255 255 255 / 5%);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -260,20 +262,10 @@
   height: min(45rem, max(36rem, calc(100svh - 4rem)));
 }
 
-/* Subtle portfolio background */
 body {
   background-image:
-    radial-gradient(ellipse at 50% 0%, var(--glow-color), transparent 55%),
-    linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-
-  background-size:
-    100% 700px,
-    48px 48px,
-    48px 48px;
-
-  background-repeat: no-repeat, repeat, repeat;
-
+    radial-gradient(ellipse at 12% 0%, var(--ambient-glow), transparent 40%),
+    radial-gradient(ellipse at 88% 22%, var(--ambient-glow), transparent 34%);
   background-attachment: fixed;
 }
 

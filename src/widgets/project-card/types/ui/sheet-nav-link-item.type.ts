@@ -1,6 +1,8 @@
+import type { SharedTypes } from '@shared'
+
 export type SheetNavState = 'frontend' | 'backend'
 
 export type SheetNavLinkItem = {
   state: SheetNavState
-	label: string
+  label: SharedTypes.LocalizedText
 }

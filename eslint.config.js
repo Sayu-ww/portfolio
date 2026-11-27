@@ -8,7 +8,7 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config({
   extends: [
-    globalIgnores(['**/+types/', 'vite.config.ts', '*.config.js']),
+    globalIgnores(['**/+types/', '.react-router/', 'vite.config.ts', '*.config.js']),
     js.configs.recommended,
     react.configs.flat.recommended,
     reactHooks.configs['recommended-latest'],

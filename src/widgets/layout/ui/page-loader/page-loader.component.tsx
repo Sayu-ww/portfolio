@@ -1,15 +1,11 @@
-import { SharedUi } from '@shared'
+import { SharedService, SharedUi } from '@shared'
 import { clsx } from 'cn'
 import { useEffect, useState, type TransitionEvent } from 'react'
-
-const getStatus = (progress: number) => {
-  if (progress < 35) return 'Initializing interface'
-  if (progress < 70) return 'Preparing experience'
-  if (progress < 100) return 'Almost ready'
-  return 'Portfolio initialized'
-}
+import { Constants } from '../../lib'
 
 export function PageLoaderComponent() {
+  const { locale } = SharedService.Locale.useLocale()
+  const copy = Constants.PAGE_LOADER_COPY[locale]
   const [progress, setProgress] = useState(10)
   const [isVisible, setIsVisible] = useState(true)
   const [isRendered, setIsRendered] = useState(true)
@@ -48,109 +44,73 @@ export function PageLoaderComponent() {
 
   if (!isRendered) return null
 
-  const status = getStatus(progress)
+  const status = Constants.getPageLoaderStatus(progress, locale)
 
   return (
     <div
       onTransitionEnd={handleTransitionEnd}
       className={clsx(
-        'z-loader fixed inset-0 isolate overflow-hidden',
-        'flex flex-col items-center justify-center',
-        'bg-background text-foreground',
-        'transition-opacity duration-500',
+        'z-loader fixed inset-0 isolate flex items-center justify-center overflow-hidden p-4',
+        'bg-background/90 text-foreground backdrop-blur-2xl transition-opacity duration-500 sm:p-8',
         isVisible ? 'opacity-100' : 'pointer-events-none opacity-0',
       )}
       role="status"
-      aria-label="Loading portfolio"
+      aria-label={locale === 'en' ? 'Loading portfolio' : 'Загрузка портфолио'}
       aria-live="polite"
       aria-atomic="true"
     >
-      {/* Background glow */}
-      <div aria-hidden="true" className="loader-glow pointer-events-none absolute inset-0 -z-10" />
+      <div aria-hidden="true" className="loader-glow pointer-events-none absolute inset-0 -z-10 opacity-70" />
+      <div
+        aria-hidden="true"
+        className="bg-foreground/5 pointer-events-none absolute -top-32 -left-32 -z-10 size-96 rounded-full blur-3xl"
+      />
+      <div
+        aria-hidden="true"
+        className="bg-foreground/5 pointer-events-none absolute -right-24 -bottom-40 -z-10 size-96 rounded-full blur-3xl"
+      />
 
-      {/* Technical grid */}
-      <div aria-hidden="true" className="loader-grid pointer-events-none absolute inset-0 -z-10" />
-
-      <div className="w-full max-w-xl px-5 sm:px-6">
-        {/* Top label */}
-        <div className="mb-8 flex items-center justify-between gap-3 sm:mb-12 sm:gap-4">
-          <span className="text-muted-foreground text-2xs tracking-banner-wide font-mono uppercase sm:text-xs">
-            Personal Portfolio
+      <div className="border-border/70 bg-background/65 shadow-foreground/[0.05] w-full max-w-lg rounded-[2rem] border p-6 shadow-2xl backdrop-blur-2xl sm:p-10">
+        <div className="mb-10 flex items-center justify-between gap-4">
+          <span className="text-muted-foreground text-xs font-medium tracking-[0.16em] uppercase">
+            {copy.label}
           </span>
-
-          <span className="text-muted-foreground text-2xs flex items-center gap-2 font-mono tracking-wider uppercase">
+          <span className="border-border/70 bg-background/70 text-muted-foreground inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs">
             <span
               className={clsx(
                 'size-1.5 rounded-full',
-                progress === 100 ? 'bg-foreground' : 'bg-muted-foreground animate-pulse',
+                progress === 100 ? 'bg-foreground' : 'bg-muted-foreground motion-safe:animate-pulse',
               )}
             />
-            {progress === 100 ? 'Ready' : 'Initializing'}
+            {progress === 100 ? copy.state[1] : copy.state[0]}
           </span>
         </div>
 
-        {/* Main title */}
-        <div className="mb-8 sm:mb-10">
-          <p className="text-muted-foreground tracking-extra-wide mb-4 font-mono text-xs uppercase">
-            System / 001
-          </p>
+        <p className="text-muted-foreground mb-3 text-xs font-medium tracking-[0.16em] uppercase">
+          {copy.role}
+        </p>
+        <h1 className="text-4xl leading-tight font-semibold tracking-tight sm:text-5xl">
+          {copy.headline}
+          <br />
+          <span className="text-muted-foreground">{copy.headlineAccent}</span>
+        </h1>
+        <p className="text-muted-foreground mt-4 text-sm leading-6">{copy.description}</p>
 
-          <h1 className="leading-display-tight text-4xl font-semibold tracking-tight sm:text-6xl md:text-7xl">
-            Building
-            <br />
-            <span className="text-muted-foreground">experience.</span>
-          </h1>
-        </div>
-
-        {/* Progress header */}
-        <div className="mb-3 flex items-end justify-between gap-4">
-          <div className="space-y-1">
+        <div className="mt-9">
+          <div className="mb-3 flex items-center justify-between gap-4">
             <p className="text-sm font-medium">{status}</p>
-
-            <p className="text-muted-foreground text-2xs font-mono">Please wait while the page loads</p>
+            <span className="font-mono text-sm tabular-nums">
+              {String(progress).padStart(3, '0')}
+              <span className="text-muted-foreground">%</span>
+            </span>
           </div>
-
-          <span className="font-mono text-3xl font-medium tracking-tight tabular-nums">
-            {String(progress).padStart(3, '0')}
-            <span className="text-muted-foreground">%</span>
-          </span>
+          <SharedUi.Progress value={progress} className="bg-muted h-2 w-full overflow-hidden rounded-full" />
         </div>
 
-        {/* Progress bar */}
-        <div className="relative">
-          <SharedUi.Progress
-            value={progress}
-            className="bg-muted h-1.5 w-full overflow-hidden rounded-none"
-          />
-        </div>
-
-        {/* Progress markers */}
-        <div className="text-muted-foreground text-3xs mt-3 flex justify-between font-mono tracking-wider">
-          <span>START</span>
-          <span>LOADING</span>
-          <span>COMPLETE</span>
-        </div>
-
-        {/* Bottom metadata */}
-        <div className="border-border mt-8 flex flex-wrap items-center justify-between gap-2 border-t pt-4 sm:mt-12 sm:gap-4">
-          <span className="text-muted-foreground text-2xs font-mono">REACT · TYPESCRIPT · NODE.JS</span>
-
-          <span className="text-muted-foreground text-2xs font-mono">
-            {progress === 100 ? '200 / OK' : 'BOOT / IN PROGRESS'}
-          </span>
+        <div className="border-border/70 mt-8 flex items-center justify-between border-t pt-4">
+          <span className="text-muted-foreground text-xs">React · TypeScript · Node.js</span>
+          <span className="text-muted-foreground text-xs">Sayu-ww</span>
         </div>
       </div>
-
-      {/* Decorative corner markers */}
-      <div
-        aria-hidden="true"
-        className="border-border absolute top-5 left-5 size-4 border-t border-l sm:top-8 sm:left-8"
-      />
-
-      <div
-        aria-hidden="true"
-        className="border-border absolute right-5 bottom-5 size-4 border-r border-b sm:right-8 sm:bottom-8"
-      />
     </div>
   )
 }

@@ -1,8 +1,9 @@
-import { SharedUi, type SharedTypes } from '@shared'
+import { SharedService, SharedUi, type SharedTypes } from '@shared'
 import { ProjectCardTypes, ProjectCardUi } from '@widgets/project-card'
 import { clsx } from 'cn'
 import type { ProjectEntity } from 'entities'
 import { useState } from 'react'
+import { Constants } from '../../lib'
 
 type Props = SharedTypes.Ui.PropsWithClassName<{
   project: ProjectEntity.Model.Types.Project
@@ -10,6 +11,8 @@ type Props = SharedTypes.Ui.PropsWithClassName<{
 
 export function SheetComponent(props: Props) {
   const { project, className } = props
+  const { locale } = SharedService.Locale.useLocale()
+  const copy = Constants.PROJECT_CARD_COPY[locale]
 
   const [state, setState] = useState<ProjectCardTypes.Ui.SheetNavState>('frontend')
 
@@ -18,13 +21,14 @@ export function SheetComponent(props: Props) {
       <SharedUi.SheetTrigger
         render={
           <SharedUi.Button variant="outline" className="cursor-pointer">
-            More
+            {copy.more}
           </SharedUi.Button>
         }
       />
 
       <SharedUi.SheetContent
         side="left"
+        closeLabel={copy.close}
         className={clsx(
           'flex h-dvh w-full min-w-0 flex-col gap-0 p-0 sm:max-w-3xl',
           'data-[side=left]:!w-full data-[side=left]:max-w-none sm:data-[side=left]:max-w-3xl',
@@ -33,7 +37,7 @@ export function SheetComponent(props: Props) {
       >
         <SharedUi.SheetHeader className="border-border shrink-0 gap-3 border-b px-4 py-4 sm:px-6 sm:py-5">
           <span className="text-muted-foreground text-2xs tracking-banner-tight font-mono">
-            PROJECT / TECHNICAL OVERVIEW
+            {copy.technicalOverview}
           </span>
 
           <SharedUi.SheetTitle className="text-xl leading-tight tracking-tight break-words sm:text-2xl">
@@ -41,7 +45,7 @@ export function SheetComponent(props: Props) {
           </SharedUi.SheetTitle>
 
           <SharedUi.SheetDescription className="text-sm leading-relaxed">
-            {project.description}
+            {project.description[locale]}
           </SharedUi.SheetDescription>
 
           {project.backendCodeSnippets !== undefined && (
@@ -49,7 +53,7 @@ export function SheetComponent(props: Props) {
           )}
         </SharedUi.SheetHeader>
 
-        <div className="min-h-0 flex-1 overflow-hidden py-4 sm:py-5">
+        <div className="min-h-0 flex-1 overflow-scroll py-4 sm:py-5">
           {state === 'frontend' && (
             <ProjectCardUi.ProjectCardSheet.SheetStackSections.FrontendSection project={project} />
           )}
@@ -63,7 +67,7 @@ export function SheetComponent(props: Props) {
           <SharedUi.SheetClose
             render={
               <SharedUi.Button variant="outline" className="w-full sm:w-auto">
-                Close
+                {copy.close}
               </SharedUi.Button>
             }
           />
